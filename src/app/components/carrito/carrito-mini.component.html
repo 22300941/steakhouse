@@ -1,0 +1,32 @@
+<div class="carrito-mini">
+  <h3 class="mini-title">🛒 Carrito</h3>
+
+  @if (items().length === 0) {
+    <p class="empty">Sin productos en el carrito.</p>
+  } @else {
+    <ul class="mini-list">
+      @for (item of items(); track item.producto.id) {
+        <li class="mini-item">
+          <div class="info">
+            <span class="nombre">{{ item.producto.name }}</span>
+            <span class="cantidad">x{{ item.cantidad }}</span>
+          </div>
+          <div class="derecha">
+            <span class="precio">{{ item.producto.price * item.cantidad | currency:'MXN' }}</span>
+            <div class="btns">
+              <button class="btn-quitar-uno" (click)="carritoService.quitarUno(item.producto.id)" title="Quitar uno">−</button>
+              <button class="btn-quitar-todo" (click)="carritoService.quitarTodo(item.producto.id)" title="Eliminar todos">✕</button>
+            </div>
+          </div>
+        </li>
+      }
+    </ul>
+
+    <div class="mini-footer">
+      <span class="total-label">Total:</span>
+      <span class="total-valor">{{ total() | currency:'MXN' }}</span>
+    </div>
+
+    <a routerLink="/carrito" class="btn-ir-carrito">Ver carrito completo →</a>
+  }
+</div>

@@ -1,0 +1,54 @@
+<app-navbar></app-navbar>
+
+<div class="pagina">
+  <div class="contenido">
+    <header class="page-header">
+      <h2>MENÚ</h2>
+    </header>
+
+    <!-- Filtro por categoría -->
+    <div class="filtros">
+      @for (cat of categorias(); track cat) {
+        <button
+          class="btn-cat"
+          [class.activo]="categoriaActiva() === cat"
+          (click)="categoriaActiva.set(cat)"
+        >
+          {{ cat }}
+        </button>
+      }
+    </div>
+
+    <!-- Tarjetas de productos -->
+    @if (productos().length === 0) {
+      <p class="cargando">Cargando menú...</p>
+    } @else if (productosFiltrados().length === 0) {
+      <p class="sin-datos">No hay productos disponibles en esta categoría.</p>
+    } @else {
+      <div class="productos-grid">
+        @for (p of productosFiltrados(); track p.id) {
+          <article class="producto-card">
+            <img [src]="p.imageURL || 'assets/placeholder.png'" [alt]="p.name" class="prod-img" />
+            <div class="prod-body">
+              <div class="prod-top">
+                <h4 class="prod-nombre">{{ p.name }}</h4>
+                <span class="prod-precio">{{ p.price | currency:'MXN' }}</span>
+              </div>
+              <span class="prod-categoria">{{ p.category }}</span>
+              <p class="prod-desc">{{ p.description }}</p>
+              <div class="prod-footer">
+                <span class="prod-stock">Disponibles: {{ p.inStock }}</span>
+                <button class="btn-agregar" (click)="agregar(p)">
+                  + Agregar
+                </button>
+              </div>
+            </div>
+          </article>
+        }
+      </div>
+    }
+
+    <!-- Carrito mini -->
+    <app-carrito-mini></app-carrito-mini>
+  </div>
+</div>

@@ -1,0 +1,96 @@
+.navbar {
+  background-color: #111111;
+  color: #ffffff;
+  padding: 0 32px;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.brand {
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  text-decoration: none;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  font-family: 'Georgia', serif;
+}
+
+.nav-links {
+  display: flex;
+  gap: 8px;
+  flex: 1;
+}
+
+.nav-links a {
+  color: #ccc;
+  text-decoration: none;
+  padding: 6px 14px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background 0.2s, color 0.2s;
+  position: relative;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  background-color: #333;
+  color: #fff;
+}
+
+.carrito-link {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.badge {
+  background-color: #c0392b;
+  color: #fff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  border-radius: 10px;
+  padding: 1px 7px;
+  min-width: 18px;
+  text-align: center;
+}
+
+.usuario-area {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+.nombre-usuario {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.btn-logout {
+  background: transparent;
+  border: 1px solid #555;
+  color: #ccc;
+  padding: 5px 14px;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  border-color: #ccc;
+  color: #fff;
+}

@@ -1,0 +1,70 @@
+<app-navbar></app-navbar>
+
+<div class="pagina">
+  <div class="contenido">
+    <header class="page-header">
+      <h2>PROVEEDORES — COMPRA</h2>
+    </header>
+
+    <!-- Botones de proveedores -->
+    <section class="proveedores-section">
+      <h3>Selecciona un proveedor</h3>
+      <div class="proveedores-grid">
+        @for (prov of proveedores(); track prov.id) {
+          <button
+            class="btn-proveedor"
+            [class.activo]="proveedorSeleccionado() === prov.id"
+            (click)="seleccionarProveedor(prov.id)"
+          >
+            🏭 {{ prov.nombre }}
+          </button>
+        }
+        @if (proveedores().length === 0) {
+          <p class="sin-datos">Cargando proveedores...</p>
+        }
+      </div>
+    </section>
+
+    <!-- Tarjetas de productos -->
+    @if (proveedorSeleccionado() !== null) {
+      <section class="productos-section">
+        <h3>Productos de {{ nombreProveedor(proveedorSeleccionado()) }}</h3>
+
+        @if (cargandoProductos()) {
+          <p class="cargando">Cargando productos...</p>
+        } @else if (productos().length === 0) {
+          <p class="sin-datos">Este proveedor no tiene productos registrados.</p>
+        } @else {
+          <div class="productos-grid">
+            @for (p of productos(); track p.id) {
+              <article class="producto-card">
+                <img [src]="p.imageURL || 'assets/placeholder.png'" [alt]="p.name" class="prod-img" />
+                <div class="prod-body">
+                  <h4 class="prod-nombre">{{ p.name }}</h4>
+                  <span class="prod-categoria">{{ p.category }}</span>
+                  <p class="prod-desc">{{ p.description }}</p>
+                  <div class="prod-footer">
+                    <span class="prod-precio">{{ p.price | currency:'MXN' }}</span>
+                    <span class="prod-stock" [class.agotado]="p.inStock === 0">
+                      Stock: {{ p.inStock }}
+                    </span>
+                  </div>
+                  <button
+                    class="btn-agregar"
+                    [disabled]="p.inStock === 0"
+                    (click)="agregar(p)"
+                  >
+                    @if (p.inStock === 0) { Agotado } @else { + Agregar al carrito }
+                  </button>
+                </div>
+              </article>
+            }
+          </div>
+        }
+      </section>
+    }
+
+    <!-- Carrito mini -->
+    <app-carrito-mini></app-carrito-mini>
+  </div>
+</div>

@@ -1,0 +1,25 @@
+<header class="navbar">
+  <div class="nav-inner">
+    <a class="brand" routerLink="/inicio">🥩 Garín Steakhouse</a>
+
+    <nav class="nav-links">
+      @if (esAdmin) {
+        <a routerLink="/compra" routerLinkActive="active">Compra</a>
+        <a routerLink="/inventario" routerLinkActive="active">Inventario</a>
+      }
+      <a routerLink="/menu" routerLinkActive="active">Menú</a>
+      <a routerLink="/ganancias" routerLinkActive="active">Ganancias</a>
+      <a routerLink="/carrito" routerLinkActive="active" class="carrito-link">
+        🛒 Carrito
+        @if (totalItems > 0) {
+          <span class="badge">{{ totalItems }}</span>
+        }
+      </a>
+    </nav>
+
+    <div class="usuario-area">
+      <span class="nombre-usuario">{{ nombre }}</span>
+      <button class="btn-logout" (click)="cerrarSesion()">Salir</button>
+    </div>
+  </div>
+</header>

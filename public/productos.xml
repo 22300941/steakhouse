@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<products>
+    <product>
+        <id>1</id>
+        <name>Arrachera</name>
+        <price>368</price>
+        <imageURL>arrachera.jpg</imageURL>
+        <category>Carne</category>
+        <description>1kg de carne de arrachera</description>
+        <inStock>20</inStock>
+    </product>
+
+    <product>
+        <id>2</id>
+        <name>Rib Eye</name>
+        <price>488</price>
+        <imageURL>ribeye.jpg</imageURL>
+        <category>Carne</category>
+        <description>1kg de carne de rib eye</description>
+        <inStock>20</inStock>
+    </product>
+
+    <product>
+        <id>3</id>
+        <name>New York Strip</name>
+        <price>488</price>
+        <imageURL>newyorkstrip.jpg</imageURL>
+        <category>Carne</category>
+        <description>1kg de carne de new york strip</description>
+        <inStock>20</inStock>
+    </product>
+
+    <product>
+        <id>4</id>
+        <name>Tomahawk</name>
+        <price>798</price>
+        <imageURL>tomahawk.jpg</imageURL>
+        <category>Carne</category>
+        <description>1kg de carne de tomahawk</description>
+        <inStock>0</inStock>
+    </product>
+
+    <product>
+        <id>5</id>
+        <name>Picaña</name>
+        <price>468</price>
+        <imageURL>picaña.jpg</imageURL>
+        <category>Carne</category>
+        <description>1kg de carne de picaña</description>
+        <inStock>20</inStock>
+    </product>
+</products>

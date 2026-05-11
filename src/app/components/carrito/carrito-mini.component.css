@@ -1,0 +1,139 @@
+.carrito-mini {
+  background: #f5f0e8;
+  border-radius: 6px;
+  padding: 20px 24px;
+  margin-top: 40px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  color: #111;
+}
+
+.mini-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 14px;
+  border-bottom: 1.5px solid #ccc;
+  padding-bottom: 8px;
+}
+
+.empty {
+  color: #777;
+  font-size: 0.9rem;
+}
+
+.mini-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mini-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #e0dbd0;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.nombre {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.cantidad {
+  font-size: 0.82rem;
+  color: #777;
+}
+
+.derecha {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.precio {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #333;
+}
+
+.btns {
+  display: flex;
+  gap: 4px;
+}
+
+.btn-quitar-uno,
+.btn-quitar-todo {
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 3px 8px;
+  transition: background 0.15s;
+}
+
+.btn-quitar-uno {
+  background: #e0dbd0;
+  color: #333;
+}
+
+.btn-quitar-uno:hover {
+  background: #ccc;
+}
+
+.btn-quitar-todo {
+  background: #c0392b;
+  color: #fff;
+}
+
+.btn-quitar-todo:hover {
+  background: #a93226;
+}
+
+.mini-footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 10px 0;
+  border-top: 1.5px solid #ccc;
+  margin-top: 4px;
+}
+
+.total-label {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.total-valor {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #111;
+}
+
+.btn-ir-carrito {
+  display: block;
+  margin-top: 14px;
+  background: #111;
+  color: #fff;
+  text-decoration: none;
+  text-align: center;
+  padding: 10px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  transition: background 0.2s;
+}
+
+.btn-ir-carrito:hover {
+  background: #333;
+}

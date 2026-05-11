@@ -1,0 +1,74 @@
+<app-navbar></app-navbar>
+
+<div class="pagina">
+  <div class="contenido">
+    <h2 class="titulo-pagina">Carrito de Compras</h2>
+
+    @if (items().length === 0) {
+      <div class="vacio">
+        <p>🛒 Tu carrito está vacío.</p>
+      </div>
+    } @else {
+
+      <div class="tabla-carrito">
+        <div class="tabla-header">
+          <span>Producto</span>
+          <span>Precio unit.</span>
+          <span>Cantidad</span>
+          <span>Subtotal</span>
+          <span>Acciones</span>
+        </div>
+
+        @for (item of items(); track item.producto.id) {
+          <div class="tabla-fila">
+            <span class="nombre-prod">{{ item.producto.name }}</span>
+            <span>{{ item.producto.price | currency:'MXN' }}</span>
+            <span class="cantidad">x{{ item.cantidad }}</span>
+            <span class="subtotal-item">{{ item.producto.price * item.cantidad | currency:'MXN' }}</span>
+            <div class="acciones-fila">
+              <button class="btn-uno" (click)="quitarUno(item.producto.id)" title="Quitar uno">−1</button>
+              <button class="btn-todo" (click)="quitarTodo(item.producto.id)" title="Eliminar">✕</button>
+            </div>
+          </div>
+        }
+      </div>
+
+      <div class="resumen">
+        <div class="resumen-linea">
+          <span>Subtotal</span>
+          <span>{{ subtotal() | currency:'MXN' }}</span>
+        </div>
+        <div class="resumen-linea">
+          <span>IVA (16%)</span>
+          <span>{{ impuesto() | currency:'MXN' }}</span>
+        </div>
+        <div class="resumen-linea total">
+          <span>Total</span>
+          <span>{{ totalFinal() | currency:'MXN' }}</span>
+        </div>
+      </div>
+
+      @if (mensajePago()) {
+        <div class="mensaje-pago">{{ mensajePago() }}</div>
+      }
+
+      <div class="botones-pago">
+        <button class="btn-xml" (click)="generarXML()">
+          📄 Generar Ticket XML
+        </button>
+
+        <div class="separador">— o pagar con —</div>
+
+        <div id="paypal-buttons"></div>
+
+        <button class="btn-tarjeta" (click)="mostrarPago.set(true)">
+          💳 Pago con Tarjeta
+        </button>
+      </div>
+
+      <div class="acciones-carrito">
+        <button class="btn-vaciar" (click)="vaciar()">Vaciar carrito</button>
+      </div>
+    }
+  </div>
+</div>

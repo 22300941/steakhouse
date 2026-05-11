@@ -1,0 +1,106 @@
+.login-bg {
+  min-height: 100vh;
+  background-color: #2c2c2c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Georgia', serif;
+}
+
+.login-box {
+  background-color: #f5f0e8;
+  border-radius: 6px;
+  padding: 48px 52px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 40px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.empresa-nombre {
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.icono {
+  font-size: 2.5rem;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.empresa-nombre h1 {
+  color: #111111;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0 0 4px;
+  letter-spacing: 0.5px;
+}
+
+.subtitulo {
+  color: #555;
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.form-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-grupo label {
+  color: #111;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.form-grupo input {
+  padding: 11px 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.95rem;
+  color: #111;
+  background: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.form-grupo input:focus {
+  border-color: #111;
+}
+
+.error-msg {
+  color: #c0392b;
+  font-size: 0.85rem;
+  text-align: center;
+  margin: 0;
+  padding: 8px;
+  background: #fdecea;
+  border-radius: 4px;
+}
+
+.btn-login {
+  background-color: #111111;
+  color: #fff;
+  border: none;
+  padding: 13px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+  transition: background-color 0.2s;
+}
+
+.btn-login:hover:not(:disabled) {
+  background-color: #333;
+}
+
+.btn-login:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

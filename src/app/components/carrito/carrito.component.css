@@ -1,0 +1,204 @@
+.pagina {
+  min-height: calc(100vh - 60px);
+  background: #2c2c2c;
+  padding: 32px 24px;
+}
+
+.contenido {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.titulo-pagina {
+  color: #fff;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0 0 28px;
+  font-family: 'Georgia', serif;
+}
+
+.vacio {
+  background: #f5f0e8;
+  border-radius: 6px;
+  padding: 40px;
+  text-align: center;
+  color: #555;
+  font-size: 1.1rem;
+}
+
+.tabla-carrito {
+  background: #f5f0e8;
+  border-radius: 6px;
+  overflow: hidden;
+  color: #111;
+  margin-bottom: 24px;
+}
+
+.tabla-header {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  background: #111;
+  color: #fff;
+  padding: 12px 18px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  gap: 8px;
+}
+
+.tabla-fila {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+  padding: 13px 18px;
+  align-items: center;
+  gap: 8px;
+  border-bottom: 1px solid #e0dbd0;
+  font-size: 0.9rem;
+}
+
+.tabla-fila:last-child { border-bottom: none; }
+.tabla-fila:nth-child(even) { background: #faf7f2; }
+
+.nombre-prod { font-weight: 600; }
+.cantidad { color: #555; }
+.subtotal-item { font-weight: 700; }
+
+.acciones-fila {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-uno, .btn-todo {
+  border: none;
+  border-radius: 3px;
+  padding: 4px 10px;
+  cursor: pointer;
+  font-size: 0.82rem;
+  font-weight: 600;
+  transition: background 0.15s;
+}
+
+.btn-uno {
+  background: #e0dbd0;
+  color: #333;
+}
+
+.btn-uno:hover { background: #ccc; }
+
+.btn-todo {
+  background: #c0392b;
+  color: #fff;
+}
+
+.btn-todo:hover { background: #a93226; }
+
+.resumen {
+  background: #f5f0e8;
+  border-radius: 6px;
+  padding: 18px 24px;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 320px;
+  margin-left: auto;
+}
+
+.resumen-linea {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.92rem;
+  color: #333;
+}
+
+.resumen-linea.total {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #111;
+  border-top: 1.5px solid #ccc;
+  padding-top: 10px;
+  margin-top: 4px;
+}
+
+.mensaje-pago {
+  background: #eaf9ea;
+  color: #1a7a1a;
+  border-radius: 5px;
+  padding: 12px 18px;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.botones-pago {
+  background: #f5f0e8;
+  border-radius: 6px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.btn-xml {
+  background: #1a5c2a;
+  color: #fff;
+  border: none;
+  padding: 13px 32px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  max-width: 340px;
+  transition: background 0.2s;
+}
+
+.btn-xml:hover { background: #154f22; }
+
+.separador {
+  color: #888;
+  font-size: 0.85rem;
+}
+
+#paypal-buttons {
+  width: 100%;
+  max-width: 340px;
+}
+
+.btn-tarjeta {
+  background: #111;
+  color: #fff;
+  border: none;
+  padding: 13px 32px;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  max-width: 340px;
+  transition: background 0.2s;
+}
+
+.btn-tarjeta:hover { background: #333; }
+
+.acciones-carrito {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.btn-vaciar {
+  background: transparent;
+  border: 1.5px solid #888;
+  color: #ccc;
+  padding: 8px 20px;
+  border-radius: 4px;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-vaciar:hover {
+  border-color: #c0392b;
+  color: #c0392b;
+}

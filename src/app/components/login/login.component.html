@@ -1,0 +1,46 @@
+<div class="login-bg">
+  <div class="login-box">
+    <div class="empresa-nombre">
+      <span class="icono">🥩</span>
+      <h1>Garín Steakhouse</h1>
+      <p class="subtitulo">Sistema de Gestión Interna</p>
+    </div>
+
+    <div class="form-grupo">
+      <label for="usuario">Usuario</label>
+      <input
+        id="usuario"
+        type="text"
+        placeholder="Ingresa tu usuario"
+        [value]="username()"
+        (input)="username.set($any($event.target).value)"
+        (keyup.enter)="iniciarSesion()"
+      />
+    </div>
+
+    <div class="form-grupo">
+      <label for="contrasena">Contraseña</label>
+      <input
+        id="contrasena"
+        type="password"
+        placeholder="Ingresa tu contraseña"
+        [value]="password()"
+        (input)="password.set($any($event.target).value)"
+        (keyup.enter)="iniciarSesion()"
+      />
+    </div>
+
+    @if (error()) {
+      <p class="error-msg">{{ error() }}</p>
+    }
+
+    <button
+      class="btn-login"
+      (click)="iniciarSesion()"
+      [disabled]="cargando()"
+    >
+      @if (cargando()) { Iniciando sesión... }
+      @else { Iniciar Sesión }
+    </button>
+  </div>
+</div>

@@ -1,0 +1,105 @@
+<app-navbar></app-navbar>
+
+<div class="pagina">
+  <div class="contenido">
+    <header class="page-header">
+      <h2>INVENTARIO</h2>
+    </header>
+
+    <!-- Barra de acciones -->
+    <div class="acciones-bar">
+      <input
+        type="text"
+        class="buscador"
+        placeholder="Buscar por nombre, categoría o proveedor..."
+        [value]="busqueda()"
+        (input)="busqueda.set($any($event.target).value)"
+      />
+      <button class="btn-agregar" (click)="abrirAgregar()">+ Agregar producto</button>
+    </div>
+
+    <!-- Formulario modal / inline -->
+    @if (mostrarFormulario()) {
+      <div class="formulario-card">
+        <h3>{{ modoEdicion() ? 'Editar Producto' : 'Nuevo Producto' }}</h3>
+        <div class="form-grid">
+          <div class="form-grupo">
+            <label>Nombre *</label>
+            <input type="text" [(ngModel)]="productoForm.name" placeholder="Nombre del producto" />
+          </div>
+          <div class="form-grupo">
+            <label>Precio *</label>
+            <input type="number" [(ngModel)]="productoForm.price" placeholder="0.00" min="0" step="0.01" />
+          </div>
+          <div class="form-grupo">
+            <label>Categoría</label>
+            <input type="text" [(ngModel)]="productoForm.category" placeholder="Ej: Cortes, Bebidas..." />
+          </div>
+          <div class="form-grupo">
+            <label>Stock</label>
+            <input type="number" [(ngModel)]="productoForm.inStock" placeholder="0" min="0" />
+          </div>
+          <div class="form-grupo">
+            <label>Proveedor</label>
+            <input type="text" [(ngModel)]="productoForm.proveedor" placeholder="Nombre del proveedor" />
+          </div>
+          <div class="form-grupo">
+            <label>URL de imagen</label>
+            <input type="text" [(ngModel)]="productoForm.imageURL" placeholder="https://..." />
+          </div>
+          <div class="form-grupo full">
+            <label>Descripción</label>
+            <textarea [(ngModel)]="productoForm.description" rows="3" placeholder="Descripción del producto"></textarea>
+          </div>
+        </div>
+        <div class="form-botones">
+          <button class="btn-cancelar" (click)="cancelar()">Cancelar</button>
+          <button class="btn-guardar" (click)="guardar()">
+            {{ modoEdicion() ? 'Actualizar' : 'Guardar' }}
+          </button>
+        </div>
+      </div>
+    }
+
+    <!-- Tabla de inventario -->
+    <div class="tabla-wrapper">
+      @if (productosFiltrados().length === 0) {
+        <p class="sin-datos">No se encontraron productos.</p>
+      } @else {
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Precio</th>
+              <th>Tipo/Categoría</th>
+              <th>Descripción</th>
+              <th>Proveedor</th>
+              <th>Stock</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (p of productosFiltrados(); track p.id) {
+              <tr>
+                <td class="nombre-col">{{ p.name }}</td>
+                <td>{{ p.price | currency:'MXN' }}</td>
+                <td><span class="badge-cat">{{ p.category }}</span></td>
+                <td class="desc-col">{{ p.description }}</td>
+                <td>{{ p.proveedor ?? '—' }}</td>
+                <td>
+                  <span class="stock-badge" [class.bajo]="p.inStock <= 5" [class.agotado]="p.inStock === 0">
+                    {{ p.inStock }}
+                  </span>
+                </td>
+                <td class="acciones-col">
+                  <button class="btn-editar" (click)="abrirEditar(p)">✏️ Editar</button>
+                  <button class="btn-eliminar" (click)="eliminar(p.id)">🗑️ Eliminar</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      }
+    </div>
+  </div>
+</div>

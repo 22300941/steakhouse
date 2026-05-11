@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+
+<div class="pagina">
+  <div class="contenido">
+    <div class="bienvenida">
+      <h2>Bienvenido, {{ nombre }} 👋</h2>
+    </div>
+
+    <div class="descripcion-card">
+      <h3>Garín Steakhouse</h3>
+      <p>
+        Somos un restaurante especializado en cortes premium de res, con más de 10 años ofreciendo
+        la mejor experiencia gastronómica en Guadalajara. Nuestro sistema de gestión interna
+        te permite administrar el inventario, controlar las compras con proveedores,
+        gestionar el menú y dar seguimiento a las ganancias del negocio.
+      </p>
+    </div>
+
+    <h3 class="seccion-titulo">Panel de Control</h3>
+
+    <div class="opciones-grid">
+      @if (esAdmin) {
+        <a routerLink="/compra" class="opcion-card">
+          <span class="opcion-icono">🛍️</span>
+          <span class="opcion-nombre">COMPRA</span>
+          <span class="opcion-desc">Gestión de compras a proveedores</span>
+        </a>
+
+        <a routerLink="/inventario" class="opcion-card">
+          <span class="opcion-icono">📦</span>
+          <span class="opcion-nombre">INVENTARIO</span>
+          <span class="opcion-desc">Alta, baja y modificación de productos</span>
+        </a>
+      }
+
+      <a routerLink="/menu" class="opcion-card">
+        <span class="opcion-icono">🍽️</span>
+        <span class="opcion-nombre">MENÚ</span>
+        <span class="opcion-desc">Catálogo de productos disponibles</span>
+      </a>
+
+      <a routerLink="/ganancias" class="opcion-card">
+        <span class="opcion-icono">💰</span>
+        <span class="opcion-nombre">GANANCIAS</span>
+        <span class="opcion-desc">Historial de tickets y ventas</span>
+      </a>
+
+      <a routerLink="/carrito" class="opcion-card">
+        <span class="opcion-icono">🛒</span>
+        <span class="opcion-nombre">CARRITO</span>
+        <span class="opcion-desc">Resumen y pago de tu pedido</span>
+      </a>
+    </div>
+  </div>
+</div>

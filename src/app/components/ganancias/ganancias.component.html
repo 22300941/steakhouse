@@ -1,0 +1,85 @@
+<app-navbar></app-navbar>
+
+<div class="pagina">
+  <div class="contenido">
+    <header class="page-header">
+      <h2>GANANCIAS</h2>
+    </header>
+
+    <!-- Modal de detalle de ticket -->
+    @if (ticketDetalle()) {
+      <div class="modal-overlay" (click)="cerrarDetalle()">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+          <h3>Ticket #{{ ticketDetalle()!.id }}</h3>
+          <div class="ticket-info">
+            <p><strong>Fecha:</strong> {{ ticketDetalle()!.fecha }}</p>
+            <p><strong>Responsable:</strong> {{ ticketDetalle()!.responsable }}</p>
+          </div>
+          @if (ticketDetalle()!.items && ticketDetalle()!.items!.length > 0) {
+            <table class="tabla-detalle">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cant.</th>
+                  <th>Precio Unit.</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of ticketDetalle()!.items; track item.producto) {
+                  <tr>
+                    <td>{{ item.producto }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>{{ item.precio_unitario | currency:'MXN' }}</td>
+                    <td>{{ item.total_linea | currency:'MXN' }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+          <div class="ticket-total">
+            Total: {{ ticketDetalle()!.cantidad | currency:'MXN' }}
+          </div>
+          <button class="btn-cerrar" (click)="cerrarDetalle()">Cerrar</button>
+        </div>
+      </div>
+    }
+
+    <!-- Tabla de ganancias -->
+    <div class="tabla-wrapper">
+      @if (tickets().length === 0) {
+        <p class="sin-datos">No hay tickets registrados aún.</p>
+      } @else {
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Fecha</th>
+              <th>Responsable</th>
+              <th>Cantidad ($)</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (t of tickets(); track t.id) {
+              <tr>
+                <td>
+                  <button class="btn-id" (click)="verTicket(t.id)">
+                    #{{ t.id }}
+                  </button>
+                </td>
+                <td>{{ t.fecha }}</td>
+                <td>{{ t.responsable }}</td>
+                <td class="monto">{{ t.cantidad | currency:'MXN' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+
+        <div class="total-bar">
+          <span>Total acumulado:</span>
+          <span class="total-valor">{{ total() | currency:'MXN' }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>
