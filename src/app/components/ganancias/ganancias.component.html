@@ -56,6 +56,7 @@
               <th>ID</th>
               <th>Fecha</th>
               <th>Responsable</th>
+              <th>Tipo</th>
               <th>Cantidad ($)</th>
             </tr>
           </thead>
@@ -69,7 +70,14 @@
                 </td>
                 <td>{{ t.fecha }}</td>
                 <td>{{ t.responsable }}</td>
-                <td class="monto">{{ t.cantidad | currency:'MXN' }}</td>
+                <td>
+                  <span [class]="t.tipo === 'inversion' ? 'badge-inv' : 'badge-gan'">
+                    {{ t.tipo === 'inversion' ? 'Inversión' : 'Ganancia' }}
+                  </span>
+                </td>
+                <td [class]="t.tipo === 'inversion' ? 'monto-inv' : 'monto'">
+                  {{ t.tipo === 'inversion' ? '-' : '+' }}{{ t.cantidad | currency:'MXN' }}
+                </td>
               </tr>
             }
           </tbody>

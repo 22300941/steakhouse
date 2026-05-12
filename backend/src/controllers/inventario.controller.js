@@ -39,5 +39,21 @@ const eliminar = (req, res) => {
     res.json({ message: 'Producto eliminado.' });
   });
 };
+const actualizarStock = (req, res) => {
+  const { items } = req.body;
+  if (!items || items.length === 0) return res.status(400).json({ error: 'Sin items.' });
 
-module.exports = { getInventario, getById, crear, actualizar, eliminar };
+  let completados = 0;
+  for (const item of items) {
+    const sql = 'UPDATE productos SET inStock = inStock - ? WHERE id = ?';
+    db.query(sql, [item.cantidad, item.id], (err) => {
+      if (err) return res.status(500).json({ error: 'Error actualizando stock.' });
+      completados++;
+      if (completados === items.length) {
+        res.json({ message: 'Stock actualizado.' });
+      }
+    });
+  }
+};
+
+module.exports = { getInventario, getById, crear, actualizar, eliminar, actualizarStock };

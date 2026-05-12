@@ -40,6 +40,7 @@ export class MenuComponent implements OnInit {
   }
 
   agregar(producto: Product) {
-    this.carritoService.agregar(producto);
-  }
+  this.carritoService.origen = 'ganancia';
+  this.carritoService.agregar(producto);
+}
 }

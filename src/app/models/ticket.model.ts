@@ -3,6 +3,7 @@ export interface Ticket {
   fecha: string;
   responsable: string;
   cantidad: number;
+  tipo: 'ganancia' | 'inversion';
   items?: TicketItem[];
 }
 

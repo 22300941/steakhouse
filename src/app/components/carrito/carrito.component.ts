@@ -1,4 +1,4 @@
-import { Component, inject, computed, signal, OnInit } from '@angular/core';
+import { Component, inject, computed, signal, OnInit, Input } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { CarritoService } from '../../services/carrito.service';
 import { PaypalService } from '../../services/paypal.service';
@@ -6,6 +6,7 @@ import { TicketService } from '../../services/ticket.service';
 import { AuthService } from '../../services/auth.service';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { environment } from '../../../enviroments/enviroment';
+import { InventarioService } from '../../services/inventario.service';
 
 @Component({
   selector: 'app-carrito',
@@ -15,10 +16,12 @@ import { environment } from '../../../enviroments/enviroment';
   styleUrls: ['./carrito.component.css'],
 })
 export class CarritoComponent implements OnInit {
+  @Input() tipo: 'ganancia' | 'inversion' = 'ganancia';
   private carritoService = inject(CarritoService);
-  private paypalService = inject(PaypalService);
-  private ticketService = inject(TicketService);
-  private auth = inject(AuthService);
+private paypalService = inject(PaypalService);
+private ticketService = inject(TicketService);
+private auth = inject(AuthService);
+private inventarioService = inject(InventarioService);
 
   items = this.carritoService.items;
   total = computed(() => this.carritoService.total());
@@ -82,11 +85,20 @@ total: Number(this.totalFinal())
   }
 
   guardarTicket() {
-    const ticket = {
-      fecha: new Date().toISOString().split('T')[0],
-      responsable: this.auth.nombreUsuario || 'Sistema',
-      cantidad: this.totalFinal(),
-      items: this.items().map(i => ({
+    const esMenu = this.carritoService.origen === 'ganancia';
+
+  if (esMenu) {
+  const stockItems = this.items().map(i => ({ id: i.producto.id, cantidad: i.cantidad }));
+  this.inventarioService.actualizarStock(stockItems).subscribe({
+    error: (e) => console.error('Error actualizando stock:', e)
+  });
+}
+  const ticket = {
+    fecha: new Date().toISOString().split('T')[0],
+    responsable: this.auth.nombreUsuario || 'Sistema',
+    cantidad: this.totalFinal(),
+    tipo: this.carritoService.origen,
+    items: this.items().map(i => ({
         producto: i.producto.name,
         cantidad: i.cantidad,
         precio_unitario: i.producto.price,

@@ -72,7 +72,26 @@
 
 .btn-id:hover { color: #0d3d6e; }
 
+.badge-gan {
+  background: #d4edda;
+  color: #155724;
+  border-radius: 3px;
+  padding: 3px 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.badge-inv {
+  background: #f8d7da;
+  color: #721c24;
+  border-radius: 3px;
+  padding: 3px 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
 .monto { font-weight: 700; color: #1a5c2a; }
+.monto-inv { font-weight: 700; color: #c0392b; }
 
 .total-bar {
   display: flex;

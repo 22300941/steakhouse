@@ -8,6 +8,7 @@ export interface ItemCarrito {
 
 @Injectable({ providedIn: 'root' })
 export class CarritoService {
+  origen: 'ganancia' | 'inversion' = 'ganancia';
   private itemsSignal = signal<ItemCarrito[]>([]);
 
   items = this.itemsSignal.asReadonly();
@@ -16,6 +17,7 @@ export class CarritoService {
   productos = computed(() => this.itemsSignal().map(i => i.producto));
 
   agregar(producto: Product) {
+    
     this.itemsSignal.update(lista => {
       const idx = lista.findIndex(i => i.producto.id === producto.id);
       if (idx >= 0) {

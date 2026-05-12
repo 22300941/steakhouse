@@ -53,6 +53,7 @@ export class CompraComponent implements OnInit {
   }
 
   agregar(producto: Product) {
-    this.carritoService.agregar(producto);
+  this.carritoService.origen = 'inversion';
+  this.carritoService.agregar(producto);
   }
 }

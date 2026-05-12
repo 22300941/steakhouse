@@ -27,4 +27,7 @@ export class InventarioService {
   eliminar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
+  actualizarStock(items: {id: number, cantidad: number}[]): Observable<any> {
+  return this.http.post(`${this.apiUrl}/stock`, { items });
+}
 }
