@@ -60,4 +60,11 @@ const actualizarStock = (req, res) => {
   }
 };
 
-module.exports = { getInventario, getInventarioVigente, getById, crear, actualizar, darDeBaja, actualizarStock };
+const reactivar = (req, res) => {
+  db.query('UPDATE productos SET vigente = 1 WHERE id = ?', [req.params.id], (err) => {
+    if (err) return res.status(500).json({ error: 'Error al reactivar producto.' });
+    res.json({ message: 'Producto reactivado.' });
+  });
+};
+
+module.exports = { getInventario, getInventarioVigente, getById, crear, actualizar, darDeBaja, actualizarStock, reactivar };

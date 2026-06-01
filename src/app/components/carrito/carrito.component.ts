@@ -85,6 +85,13 @@ export class CarritoComponent implements OnInit {
     }, 400);
   }
 
+  cancelarCompra() {
+  this.mostrarPago.set(false);
+  const contenedor = document.getElementById('paypal-buttons');
+  if (contenedor) contenedor.innerHTML = '';
+  this.toast.info('Compra cancelada.');
+}
+
   guardarHistorial() {
     const fecha = new Date().toISOString().split('T')[0];
     const responsable = this.auth.nombreUsuario;

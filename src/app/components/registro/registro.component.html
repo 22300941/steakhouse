@@ -50,11 +50,13 @@
 
       <div class="links">
         <a routerLink="/login">¿Ya tienes cuenta? Inicia sesión</a>
+        <a routerLink="/recuperar-password">¿Olvidaste tu contraseña?</a>
       </div>
     }
 
     @if (paso() === 'confirmacion') {
       <p class="exito-msg">{{ exito() }}</p>
+      <p class="instruccion">El código expira en 15 minutos.</p>
 
       <div class="form-grupo">
         <label>Código de confirmación</label>
@@ -67,6 +69,14 @@
 
       <button class="btn-login" (click)="confirmar()" [disabled]="cargando()">
         @if (cargando()) { Confirmando... } @else { Confirmar cuenta }
+      </button>
+
+      <button class="btn-secundario" (click)="reenviarCodigo()" [disabled]="cargando()">
+        Reenviar código
+      </button>
+
+      <button class="btn-secundario" (click)="cancelarRegistro()">
+        Cancelar y volver al registro
       </button>
     }
   </div>

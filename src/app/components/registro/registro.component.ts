@@ -14,9 +14,11 @@ export class RegistroComponent {
   private auth = inject(AuthService);
   private router = inject(Router);
   private toast = inject(ToastService);
+  
 
   username = signal('');
   password = signal('');
+  passwordOriginal = signal('');
   email = signal('');
   aceptaTerminos = signal(false);
   usernameDisponible = signal<boolean | null>(null);
@@ -51,6 +53,7 @@ export class RegistroComponent {
     this.cargando.set(true);
     this.error.set('');
 
+    this.passwordOriginal.set(this.password());
     this.auth.registrar(this.username(), this.password(), this.email()).subscribe({
       next: () => {
         this.cargando.set(false);
@@ -67,21 +70,52 @@ export class RegistroComponent {
     });
   }
 
-  confirmar() {
-    if (!this.codigo()) { this.error.set('Ingresa el código.'); return; }
-    this.cargando.set(true);
-    this.error.set('');
+confirmar() {
+  if (!this.codigo()) { this.error.set('Ingresa el código.'); return; }
+  this.cargando.set(true);
+  this.error.set('');
 
-    this.auth.confirmarCodigo(this.email(), this.codigo()).subscribe({
+  this.auth.confirmarCodigo(this.email(), this.codigo()).subscribe({
+    next: () => {
+      this.cargando.set(false);
+      this.toast.exito('¡Cuenta creada! Iniciando sesión...');
+      // Auto-login después del registro
+      this.auth.login(this.username(), this.passwordOriginal()).subscribe({
+        next: (res) => {
+          if (res.usuario.rol === 'admin') {
+            this.router.navigate(['/inventario']);
+          } else {
+            this.router.navigate(['/inicio']);
+          }
+        },
+        error: () => this.router.navigate(['/login'])
+      });
+    },
+    error: (err) => {
+      this.cargando.set(false);
+      this.error.set(err.error?.error ?? 'Código incorrecto.');
+      this.toast.error(err.error?.error ?? 'Código incorrecto.');
+    }
+  });
+} 
+  cancelarRegistro() {
+    this.paso.set('registro');
+    this.codigo.set('');
+    this.error.set('');
+    this.exito.set('');
+  }
+
+  reenviarCodigo() {
+    this.cargando.set(true);
+    this.auth.reenviarCodigo(this.email()).subscribe({
       next: () => {
         this.cargando.set(false);
-        this.toast.exito('¡Cuenta confirmada! Inicia sesión.');
-        this.router.navigate(['/login']);
+        this.toast.exito('Nuevo código enviado a tu correo.');
+        this.exito.set('Nuevo código enviado.');
       },
       error: (err) => {
         this.cargando.set(false);
-        this.toast.error(err.error?.error ?? 'Código incorrecto.');
-        this.error.set(err.error?.error ?? 'Código incorrecto.');
+        this.toast.error(err.error?.error ?? 'Error reenviando código.');
       }
     });
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, HostListener } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { ToastComponent } from './components/toast/toast.component';
@@ -14,5 +14,13 @@ import { ToastComponent } from './components/toast/toast.component';
 })
 export class App implements OnInit {
   private auth = inject(AuthService);
+
   ngOnInit() { this.auth.cargarDesdeStorage(); }
+
+  @HostListener('document:click')
+  @HostListener('document:keypress')
+  @HostListener('document:mousemove')
+  onActividad() {
+    this.auth.reiniciarTimeoutSesion();
+  }
 }

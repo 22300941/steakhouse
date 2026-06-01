@@ -93,9 +93,11 @@
                 </td>
                 <td class="acciones-col">
                   <button class="btn-editar" (click)="abrirEditar(p)">✏️ Editar</button>
-                  <button class="btn-eliminar" (click)="darDeBaja(p.id)" [disabled]="p.vigente === 0">
-  {{ p.vigente === 0 ? 'Inactivo' : '🚫 Dar de baja' }}
-</button>
+                  @if (p.vigente === 1) {
+  <button class="btn-eliminar" (click)="darDeBaja(p.id)">🚫 Dar de baja</button>
+} @else {
+  <button class="btn-reactivar" (click)="reactivar(p.id)">✅ Reactivar</button>
+}
               </tr>
             }
           </tbody>

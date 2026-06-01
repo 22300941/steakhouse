@@ -63,8 +63,9 @@
           }
 
           @if (mostrarPago()) {
-            <div id="paypal-buttons"></div>
-          }
+  <div id="paypal-buttons"></div>
+  <button class="btn-vaciar" (click)="cancelarCompra()">Cancelar compra</button>
+}
         </div>
       </div>
     }

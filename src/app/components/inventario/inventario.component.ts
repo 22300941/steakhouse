@@ -106,5 +106,15 @@ error: (e) => {
 },
   });
 }
+reactivar(id: number) {
+  if (!confirm('¿Deseas reactivar este producto?')) return;
+  this.inventarioService.reactivar(id).subscribe({
+    next: () => {
+      this.cargar();
+      this.toast.exito('Producto reactivado.');
+    },
+    error: () => this.toast.error('Error al reactivar.')
+  });
+}
 
 }

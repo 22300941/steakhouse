@@ -254,3 +254,15 @@
   color: #777;
   font-style: italic;
 }
+
+.btn-reactivar {
+  background: #d4edda;
+  color: #155724;
+  border: none;
+  padding: 5px 12px;
+  border-radius: 3px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-reactivar:hover { background: #b8dac2; }

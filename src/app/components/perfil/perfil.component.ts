@@ -38,12 +38,26 @@ export class PerfilComponent implements OnInit {
   }
 
   onFotoChange(event: Event) {
-    const file = (event.target as HTMLInputElement).files?.[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => this.foto.set(reader.result as string);
-    reader.readAsDataURL(file);
-  }
+  const file = (event.target as HTMLInputElement).files?.[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      const maxSize = 200;
+      let w = img.width, h = img.height;
+      if (w > h) { h = (h / w) * maxSize; w = maxSize; }
+      else { w = (w / h) * maxSize; h = maxSize; }
+      canvas.width = w;
+      canvas.height = h;
+      canvas.getContext('2d')!.drawImage(img, 0, 0, w, h);
+      this.foto.set(canvas.toDataURL('image/jpeg', 0.7));
+    };
+    img.src = e.target!.result as string;
+  };
+  reader.readAsDataURL(file);
+}
 
   guardar() {
     this.cargando.set(true);

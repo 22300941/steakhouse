@@ -18,6 +18,7 @@ export class AuthService {
           localStorage.setItem('usuario', JSON.stringify(res.usuario));
           localStorage.setItem('token', res.token);
         }
+        this.iniciarTimeoutSesion();
       })
     );
   }
@@ -46,6 +47,51 @@ export class AuthService {
     if (typeof window === 'undefined') return;
     const stored = localStorage.getItem('usuario');
     if (stored) this.usuarioActual.set(JSON.parse(stored));
+  }
+  private timeoutSesion: any = null;
+
+  iniciarTimeoutSesion() {
+    this.limpiarTimeoutSesion();
+    this.timeoutSesion = setTimeout(() => {
+      this.logout();
+      if (typeof window !== 'undefined') {
+        alert('Tu sesión ha expirado por inactividad. Por favor inicia sesión nuevamente.');
+        window.location.href = '/login';
+      }
+    }, 5 * 60 * 1000); // 5 minutos
+  }
+
+  limpiarTimeoutSesion() {
+    if (this.timeoutSesion) clearTimeout(this.timeoutSesion);
+  }
+
+  reiniciarTimeoutSesion() {
+    if (this.estaAutenticado) this.iniciarTimeoutSesion();
+  }
+
+  recuperarPassword(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/recuperar-password`, { email });
+  }
+
+  verificarCodigoRecuperacion(email: string, codigo: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/verificar-codigo-recuperacion`, { email, codigo });
+  }
+
+  cambiarPassword(email: string, password: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/cambiar-password`, { email, password });
+  }
+
+  reenviarCodigo(email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/reenviar-codigo`, { email });
+  }
+
+  autoLogin(usuario: any, token: string) {
+    this.usuarioActual.set(usuario);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('usuario', JSON.stringify(usuario));
+      localStorage.setItem('token', token);
+    }
+    this.iniciarTimeoutSesion();
   }
 
   get estaAutenticado(): boolean { return this.usuarioActual() !== null; }

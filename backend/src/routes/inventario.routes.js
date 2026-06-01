@@ -1,13 +1,14 @@
 const express = require('express');
 const router = express.Router();
-const { getInventario, getInventarioVigente, getById, crear, actualizar, darDeBaja, actualizarStock } = require('../controllers/inventario.controller');
+const { getInventario, getInventarioVigente, getById, crear, actualizar, darDeBaja, actualizarStock, reactivar } = require('../controllers/inventario.controller');
 
-router.get('/inventario', getInventario);
 router.get('/inventario/vigente', getInventarioVigente);
-router.get('/inventario/:id', getById);
+router.post('/inventario/stock', actualizarStock);
+router.get('/inventario', getInventario);
 router.post('/inventario', crear);
+router.get('/inventario/:id', getById);
 router.put('/inventario/:id', actualizar);
 router.put('/inventario/:id/baja', darDeBaja);
-router.post('/inventario/stock', actualizarStock);
+router.put('/inventario/:id/reactivar', reactivar);
 
 module.exports = router;

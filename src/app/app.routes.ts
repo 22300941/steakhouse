@@ -13,5 +13,6 @@ export const routes: Routes = [
   { path: 'carrito', loadComponent: () => import('./components/carrito/carrito.component').then(m => m.CarritoComponent), canActivate: [authGuard, empleadoGuard] },
   { path: 'perfil', loadComponent: () => import('./components/perfil/perfil.component').then(m => m.PerfilComponent), canActivate: [authGuard, empleadoGuard] },
   { path: 'historial', loadComponent: () => import('./components/historial/historial.component').then(m => m.HistorialComponent), canActivate: [authGuard, empleadoGuard] },
+  { path: 'recuperar-password', loadComponent: () => import('./components/recuperar-password/recuperar-password.component').then(m => m.RecuperarPasswordComponent) },
   { path: '**', redirectTo: 'login' }
 ];
