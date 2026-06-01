@@ -9,14 +9,15 @@
         <li class="mini-item">
           <div class="info">
             <span class="nombre">{{ item.producto.name }}</span>
-            <span class="cantidad">x{{ item.cantidad }}</span>
           </div>
           <div class="derecha">
-            <span class="precio">{{ item.producto.price * item.cantidad | currency:'MXN' }}</span>
-            <div class="btns">
-              <button class="btn-quitar-uno" (click)="carritoService.quitarUno(item.producto.id)" title="Quitar uno">−</button>
-              <button class="btn-quitar-todo" (click)="carritoService.quitarTodo(item.producto.id)" title="Eliminar todos">✕</button>
+            <div class="controles">
+              <button class="btn-ctrl" (click)="carritoService.quitarUno(item.producto.id)">−</button>
+              <span class="cantidad">{{ item.cantidad }}</span>
+              <button class="btn-ctrl" (click)="carritoService.sumarUno(item.producto.id)">+</button>
             </div>
+            <span class="precio">{{ item.producto.price * item.cantidad | currency:'MXN' }}</span>
+            <button class="btn-quitar-todo" (click)="carritoService.quitarTodo(item.producto.id)" title="Eliminar">✕</button>
           </div>
         </li>
       }

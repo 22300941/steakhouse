@@ -94,3 +94,21 @@
   border-color: #ccc;
   color: #fff;
 }
+
+.icono-nav {
+  color: #ccc;
+  font-size: 1.2rem;
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+.icono-nav:hover { background: #333; }
+
+.avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #555;
+}

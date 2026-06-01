@@ -17,3 +17,15 @@ export const adminGuard: CanActivateFn = () => {
   router.navigate(['/inicio']);
   return false;
 };
+
+export const empleadoGuard: CanActivateFn = () => {
+  const auth = inject(AuthService);
+  const router = inject(Router);
+  if (auth.estaAutenticado && !auth.esAdmin) return true;
+  if (auth.estaAutenticado && auth.esAdmin) {
+    router.navigate(['/inventario']);
+    return false;
+  }
+  router.navigate(['/login']);
+  return false;
+};

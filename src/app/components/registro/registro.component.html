@@ -1,0 +1,73 @@
+<div class="login-bg">
+  <div class="login-box">
+    <div class="empresa-nombre">
+      <span class="icono">🥩</span>
+      <h1>Garín Steakhouse</h1>
+      <p class="subtitulo">Crear cuenta</p>
+    </div>
+
+    @if (paso() === 'registro') {
+      <div class="form-grupo">
+        <label>Nombre de usuario</label>
+        <input type="text" placeholder="Elige un nombre de usuario"
+          [value]="username()"
+          (input)="username.set($any($event.target).value); verificarUsername()" />
+        @if (usernameDisponible() === true) {
+          <span class="disponible">✓ Disponible</span>
+        }
+        @if (usernameDisponible() === false) {
+          <span class="no-disponible">✗ No disponible</span>
+        }
+      </div>
+
+      <div class="form-grupo">
+        <label>Correo electrónico</label>
+        <input type="email" placeholder="correo@ejemplo.com"
+          [value]="email()" (input)="email.set($any($event.target).value)" />
+      </div>
+
+      <div class="form-grupo">
+        <label>Contraseña</label>
+        <input type="password" placeholder="Crea una contraseña"
+          [value]="password()" (input)="password.set($any($event.target).value)" />
+      </div>
+
+      <div class="terminos-check">
+        <input type="checkbox" id="terminos"
+          [checked]="aceptaTerminos()"
+          (change)="aceptaTerminos.set($any($event.target).checked)" />
+        <label for="terminos">
+          He leído y acepto los
+          <a href="http://localhost:4200/terminos.pdf" target="_blank">Términos y Condiciones</a>
+        </label>
+      </div>
+
+      @if (error()) { <p class="error-msg">{{ error() }}</p> }
+
+      <button class="btn-login" (click)="registrar()" [disabled]="cargando()">
+        @if (cargando()) { Registrando... } @else { Registrarse }
+      </button>
+
+      <div class="links">
+        <a routerLink="/login">¿Ya tienes cuenta? Inicia sesión</a>
+      </div>
+    }
+
+    @if (paso() === 'confirmacion') {
+      <p class="exito-msg">{{ exito() }}</p>
+
+      <div class="form-grupo">
+        <label>Código de confirmación</label>
+        <input type="text" placeholder="Ingresa el código de 6 dígitos"
+          [value]="codigo()" (input)="codigo.set($any($event.target).value)"
+          (keyup.enter)="confirmar()" />
+      </div>
+
+      @if (error()) { <p class="error-msg">{{ error() }}</p> }
+
+      <button class="btn-login" (click)="confirmar()" [disabled]="cargando()">
+        @if (cargando()) { Confirmando... } @else { Confirmar cuenta }
+      </button>
+    }
+  </div>
+</div>

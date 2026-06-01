@@ -30,4 +30,7 @@ export class InventarioService {
   actualizarStock(items: {id: number, cantidad: number}[]): Observable<any> {
   return this.http.post(`${this.apiUrl}/stock`, { items });
 }
+getVigentes(): Observable<Product[]> {
+  return this.http.get<Product[]>(`${this.apiUrl}/vigente`);
+}
 }

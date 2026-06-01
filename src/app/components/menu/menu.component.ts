@@ -5,7 +5,7 @@ import { InventarioService } from '../../services/inventario.service';
 import { CarritoService } from '../../services/carrito.service';
 import { Product } from '../../models/producto.model';
 import { CurrencyPipe } from '@angular/common';
-
+import { ToastService } from '../../services/toast.service';
 @Component({
   selector: 'app-menu',
   standalone: true,
@@ -16,6 +16,7 @@ import { CurrencyPipe } from '@angular/common';
 export class MenuComponent implements OnInit {
   private inventarioService = inject(InventarioService);
   private carritoService = inject(CarritoService);
+  private toast = inject(ToastService);
 
   productos = signal<Product[]>([]);
   categoriaActiva = signal<string>('Todas');
@@ -33,14 +34,15 @@ export class MenuComponent implements OnInit {
   });
 
   ngOnInit() {
-    this.inventarioService.getAll().subscribe({
-      next: (data) => this.productos.set(data),
-      error: (e) => console.error('Error cargando menú:', e)
-    });
+    this.inventarioService.getVigentes().subscribe({
+  next: (data: any[]) => this.productos.set(data),
+  error: (e: any) => console.error('Error cargando menú:', e)
+});
   }
 
   agregar(producto: Product) {
   this.carritoService.origen = 'ganancia';
   this.carritoService.agregar(producto);
+  this.toast.exito(`"${producto.name}" agregado al carrito.`);
 }
 }

@@ -6,6 +6,8 @@ export interface Product {
   category: string;
   description: string;
   inStock: number;
-  proveedor_id?: number;
   proveedor?: string;
+  proveedor_id?: number;
+  vigente?: number;
+  fecha_modificacion?: string;
 }

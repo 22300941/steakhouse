@@ -1,18 +1,18 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { ToastComponent } from './components/toast/toast.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet],
-  template: '<router-outlet></router-outlet>',
+  imports: [RouterOutlet, ToastComponent],
+  template: `
+    <router-outlet></router-outlet>
+    <app-toast></app-toast>
+  `,
 })
 export class App implements OnInit {
   private auth = inject(AuthService);
-
-  ngOnInit() {
-    // Restaurar sesión desde localStorage al recargar
-    this.auth.cargarDesdeStorage();
-  }
+  ngOnInit() { this.auth.cargarDesdeStorage(); }
 }

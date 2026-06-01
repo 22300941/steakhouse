@@ -1,0 +1,83 @@
+.pagina { min-height: calc(100vh - 60px); background: #2c2c2c; padding: 32px 24px; }
+.contenido { max-width: 700px; margin: 0 auto; }
+
+.page-header { background: #111; color: #fff; padding: 16px 28px; border-radius: 6px; margin-bottom: 24px; }
+.page-header h2 { margin: 0; font-size: 1.2rem; letter-spacing: 1px; font-family: 'Georgia', serif; }
+
+.perfil-card {
+  background: #f5f0e8;
+  border-radius: 6px;
+  padding: 32px;
+  color: #111;
+  display: flex;
+  gap: 32px;
+}
+
+.foto-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  min-width: 140px;
+}
+
+.avatar-grande {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #ccc;
+}
+
+.avatar-placeholder {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: #e0dbd0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.btn-foto {
+  background: #111;
+  color: #fff;
+  padding: 7px 14px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+.form-area { flex: 1; display: flex; flex-direction: column; gap: 16px; }
+
+.form-grupo { display: flex; flex-direction: column; gap: 5px; }
+.form-grupo label { font-size: 0.83rem; font-weight: 600; color: #444; }
+.form-grupo input {
+  padding: 10px 14px;
+  border: 1.5px solid #ccc;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #111;
+  background: #fff;
+  outline: none;
+}
+.form-grupo input:focus { border-color: #111; }
+
+.fecha-mod { font-size: 0.8rem; color: #888; }
+
+.exito-msg { color: #155724; background: #d4edda; border-radius: 4px; padding: 8px; font-size: 0.85rem; }
+.error-msg { color: #721c24; background: #f8d7da; border-radius: 4px; padding: 8px; font-size: 0.85rem; }
+
+.botones { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+
+.btn-guardar { background: #111; color: #fff; border: none; padding: 11px; border-radius: 4px; font-size: 0.92rem; font-weight: 600; cursor: pointer; }
+.btn-guardar:hover:not(:disabled) { background: #333; }
+.btn-guardar:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.btn-logout { background: transparent; border: 1.5px solid #888; color: #555; padding: 9px; border-radius: 4px; font-size: 0.88rem; cursor: pointer; }
+.btn-logout:hover { border-color: #333; color: #333; }
+
+.btn-baja { background: transparent; border: 1.5px solid #c0392b; color: #c0392b; padding: 9px; border-radius: 4px; font-size: 0.88rem; cursor: pointer; }
+.btn-baja:hover { background: #f8d7da; }

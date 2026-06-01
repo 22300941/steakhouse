@@ -1,0 +1,79 @@
+<app-navbar></app-navbar>
+
+<div class="pagina">
+  <div class="contenido">
+    <header class="page-header"><h2>MI HISTORIAL</h2></header>
+
+    @if (ticketDetalle()) {
+      <div class="modal-overlay" (click)="cerrarDetalle()">
+        <div class="modal-card" (click)="$event.stopPropagation()">
+          <h3>Ticket #{{ ticketDetalle()!.id }}</h3>
+          <div class="ticket-info">
+            <p><strong>Fecha:</strong> {{ ticketDetalle()!.fecha }}</p>
+            <p><strong>Usuario:</strong> {{ ticketDetalle()!.usuario_nombre }}</p>
+          </div>
+          @if (ticketDetalle()!.items && ticketDetalle()!.items!.length > 0) {
+            <table class="tabla-detalle">
+              <thead>
+                <tr>
+                  <th>Producto</th>
+                  <th>Cant.</th>
+                  <th>Precio Unit.</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of ticketDetalle()!.items; track item.id) {
+                  <tr>
+                    <td>{{ item.producto_nombre }}</td>
+                    <td>{{ item.cantidad }}</td>
+                    <td>{{ item.producto_precio | currency:'MXN' }}</td>
+                    <td>{{ item.total_linea | currency:'MXN' }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          }
+          <div class="ticket-total">
+            Total: {{ ticketDetalle()!.total | currency:'MXN' }}
+          </div>
+          <div class="modal-botones">
+            <button class="btn-xml" (click)="descargarXML(ticketDetalle()!)">📄 Descargar XML</button>
+            <button class="btn-cerrar" (click)="cerrarDetalle()">Cerrar</button>
+          </div>
+        </div>
+      </div>
+    }
+
+    <div class="tabla-wrapper">
+      @if (historial().length === 0) {
+        <p class="sin-datos">No tienes compras registradas aún.</p>
+      } @else {
+        <table class="tabla">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Fecha</th>
+              <th>Usuario</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (h of historial(); track h.id) {
+              <tr>
+                <td><button class="btn-id" (click)="verTicket(h.id)">#{{ h.id }}</button></td>
+                <td>{{ h.fecha }}</td>
+                <td>{{ h.usuario_nombre }}</td>
+                <td class="monto">{{ h.total | currency:'MXN' }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        <div class="total-bar">
+          <span>Total gastado:</span>
+          <span class="total-valor">{{ total() | currency:'MXN' }}</span>
+        </div>
+      }
+    </div>
+  </div>
+</div>

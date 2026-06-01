@@ -7,7 +7,6 @@ import { Usuario } from '../models/usuario.model';
 export class AuthService {
   private http = inject(HttpClient);
   private apiUrl = 'http://localhost:3000/api';
-
   private usuarioActual = signal<Usuario | null>(null);
   usuario = this.usuarioActual.asReadonly();
 
@@ -16,36 +15,43 @@ export class AuthService {
       tap(res => {
         this.usuarioActual.set(res.usuario);
         if (typeof window !== 'undefined') {
-  localStorage.setItem('usuario', JSON.stringify(res.usuario));
-  localStorage.setItem('token', res.token);
-}
+          localStorage.setItem('usuario', JSON.stringify(res.usuario));
+          localStorage.setItem('token', res.token);
+        }
       })
     );
   }
 
+  registrar(username: string, password: string, email: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/registrar`, { username, password, email });
+  }
+
+  confirmarCodigo(email: string, codigo: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/auth/confirmar`, { email, codigo });
+  }
+
+  verificarUsername(username: string): Observable<{ disponible: boolean }> {
+    return this.http.get<{ disponible: boolean }>(`${this.apiUrl}/auth/verificar-username/${username}`);
+  }
+
   logout() {
     this.usuarioActual.set(null);
-    localStorage.removeItem('usuario');
-    localStorage.removeItem('token');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('usuario');
+      localStorage.removeItem('token');
+    }
   }
 
-cargarDesdeStorage() {
-  if (typeof window === 'undefined') return;
-  const stored = localStorage.getItem('usuario');
-  if (stored) {
-    this.usuarioActual.set(JSON.parse(stored));
-  }
-}
-
-  get estaAutenticado(): boolean {
-    return this.usuarioActual() !== null;
+  cargarDesdeStorage() {
+    if (typeof window === 'undefined') return;
+    const stored = localStorage.getItem('usuario');
+    if (stored) this.usuarioActual.set(JSON.parse(stored));
   }
 
-  get esAdmin(): boolean {
-    return this.usuarioActual()?.rol === 'admin';
-  }
-
-  get nombreUsuario(): string {
-    return this.usuarioActual()?.nombre ?? '';
-  }
+  get estaAutenticado(): boolean { return this.usuarioActual() !== null; }
+  get esAdmin(): boolean { return this.usuarioActual()?.rol === 'admin'; }
+  get nombreUsuario(): string { return this.usuarioActual()?.nombre ?? ''; }
+  get emailUsuario(): string { return this.usuarioActual()?.email ?? ''; }
+  get idUsuario(): number { return this.usuarioActual()?.id ?? 0; }
+  get fotoUsuario(): string { return this.usuarioActual()?.foto ?? ''; }
 }

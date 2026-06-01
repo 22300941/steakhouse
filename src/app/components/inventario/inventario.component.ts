@@ -4,6 +4,7 @@ import { CurrencyPipe } from '@angular/common';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { InventarioService } from '../../services/inventario.service';
 import { Product } from '../../models/producto.model';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-inventario',
@@ -14,7 +15,8 @@ import { Product } from '../../models/producto.model';
 })
 export class InventarioComponent implements OnInit {
   private inventarioService = inject(InventarioService);
-
+  private toast = inject(ToastService);
+  
   productos = signal<Product[]>([]);
   mostrarFormulario = signal(false);
   modoEdicion = signal(false);
@@ -66,25 +68,43 @@ export class InventarioComponent implements OnInit {
 
   guardar() {
     if (!this.productoForm.name || this.productoForm.price == null) return;
-
+/*next: () => { 
+  this.cargar(); 
+  this.cancelar(); 
+  this.toast.exito(this.modoEdicion() ? 'Producto actualizado.' : 'Producto creado.');
+},
+error: (e) => {
+  console.error(e);
+  this.toast.error('Error al guardar el producto.');
+}*/ 
     if (this.modoEdicion() && this.productoForm.id) {
       this.inventarioService.actualizar(this.productoForm.id, this.productoForm).subscribe({
-        next: () => { this.cargar(); this.cancelar(); },
-        error: (e) => console.error('Error actualizando:', e)
+        next: () => { this.cargar(); this.cancelar(); 
+          this.toast.exito('Producto actualizado.');
+         },
+        error: (e) => {console.error('Error actualizando:', e);
+        this.toast.error('Error al guardar el producto')}
       });
     } else {
       this.inventarioService.crear(this.productoForm as Omit<Product, 'id'>).subscribe({
-        next: () => { this.cargar(); this.cancelar(); },
-        error: (e) => console.error('Error creando:', e)
+        next: () => { this.cargar(); this.cancelar(); 
+          this.toast.exito('Producto creado');
+        },
+        error: (e) => {console.error('Error creando:', e)
+          this.toast.error("Error creando");
+        }
       });
     }
   }
 
-  eliminar(id: number) {
-    if (!confirm('¿Seguro que deseas eliminar este producto?')) return;
-    this.inventarioService.eliminar(id).subscribe({
-      next: () => this.cargar(),
-      error: (e) => console.error('Error eliminando:', e)
-    });
-  }
+  darDeBaja(id: number) {
+  if (!confirm('¿Seguro que deseas dar de baja este producto?')) return;
+  this.inventarioService.eliminar(id).subscribe({
+    next: () => {
+  this.cargar();
+  this.toast.advertencia('Producto dado de baja.');
+},
+  });
+}
+
 }

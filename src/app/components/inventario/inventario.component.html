@@ -93,8 +93,9 @@
                 </td>
                 <td class="acciones-col">
                   <button class="btn-editar" (click)="abrirEditar(p)">✏️ Editar</button>
-                  <button class="btn-eliminar" (click)="eliminar(p.id)">🗑️ Eliminar</button>
-                </td>
+                  <button class="btn-eliminar" (click)="darDeBaja(p.id)" [disabled]="p.vigente === 0">
+  {{ p.vigente === 0 ? 'Inactivo' : '🚫 Dar de baja' }}
+</button>
               </tr>
             }
           </tbody>

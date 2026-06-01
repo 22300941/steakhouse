@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+//import { RouterLink } from '@angular/router';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [NavbarComponent, RouterLink],
+  imports: [NavbarComponent],
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.css'],
 })

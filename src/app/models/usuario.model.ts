@@ -1,7 +1,10 @@
 export interface Usuario {
   id: number;
   username: string;
-  password?: string;
-  rol: 'admin' | 'empleado';
   nombre: string;
+  email: string;
+  rol: 'admin' | 'empleado';
+  foto?: string;
+  vigente?: number;
+  fecha_modificacion?: string;
 }

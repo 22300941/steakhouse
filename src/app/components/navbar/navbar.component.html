@@ -2,22 +2,36 @@
   <div class="nav-inner">
     <a class="brand" routerLink="/inicio">🥩 Garín Steakhouse</a>
 
-    <nav class="nav-links">
-      @if (esAdmin) {
-        <a routerLink="/compra" routerLinkActive="active">Compra</a>
+    @if (!esAdmin) {
+      <nav class="nav-links">
+        <a routerLink="/menu" routerLinkActive="active">Menú</a>
+        <a routerLink="/carrito" routerLinkActive="active" class="carrito-link">
+          🛒 Carrito
+          @if (totalItems > 0) {
+            <span class="badge">{{ totalItems }}</span>
+          }
+        </a>
+        <a href="http://localhost:4200/aviso-privacidad.pdf" target="_blank">Aviso de Privacidad</a>
+      </nav>
+    }
+
+    @if (esAdmin) {
+      <nav class="nav-links">
         <a routerLink="/inventario" routerLinkActive="active">Inventario</a>
-      }
-      <a routerLink="/menu" routerLinkActive="active">Menú</a>
-      <a routerLink="/ganancias" routerLinkActive="active">Ganancias</a>
-      <a routerLink="/carrito" routerLinkActive="active" class="carrito-link">
-        🛒 Carrito
-        @if (totalItems > 0) {
-          <span class="badge">{{ totalItems }}</span>
-        }
-      </a>
-    </nav>
+      </nav>
+    }
 
     <div class="usuario-area">
+      @if (!esAdmin) {
+        <a routerLink="/perfil" class="icono-nav" title="Perfil">
+          @if (foto) {
+            <img [src]="foto" class="avatar" alt="foto" />
+          } @else {
+            👤
+          }
+        </a>
+        <a routerLink="/historial" class="icono-nav" title="Historial">🧾</a>
+      }
       <span class="nombre-usuario">{{ nombre }}</span>
       <button class="btn-logout" (click)="cerrarSesion()">Salir</button>
     </div>

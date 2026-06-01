@@ -1,12 +1,13 @@
-import { Component, inject, computed, signal, OnInit, Input } from '@angular/core';
+import { Component, inject, computed, signal, OnInit } from '@angular/core';
 import { CurrencyPipe } from '@angular/common';
 import { CarritoService } from '../../services/carrito.service';
 import { PaypalService } from '../../services/paypal.service';
-import { TicketService } from '../../services/ticket.service';
+import { HistorialService } from '../../services/historial.service';
+import { InventarioService } from '../../services/inventario.service';
 import { AuthService } from '../../services/auth.service';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { environment } from '../../../enviroments/enviroment';
-import { InventarioService } from '../../services/inventario.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-carrito',
@@ -16,15 +17,14 @@ import { InventarioService } from '../../services/inventario.service';
   styleUrls: ['./carrito.component.css'],
 })
 export class CarritoComponent implements OnInit {
-  @Input() tipo: 'ganancia' | 'inversion' = 'ganancia';
   private carritoService = inject(CarritoService);
-private paypalService = inject(PaypalService);
-private ticketService = inject(TicketService);
-private auth = inject(AuthService);
-private inventarioService = inject(InventarioService);
+  private paypalService = inject(PaypalService);
+  private historialService = inject(HistorialService);
+  private inventarioService = inject(InventarioService);
+  private auth = inject(AuthService);
+  private toast = inject(ToastService);
 
   items = this.carritoService.items;
-  total = computed(() => this.carritoService.total());
   subtotal = computed(() => this.carritoService.total());
   impuesto = computed(() => this.carritoService.total() * 0.16);
   totalFinal = computed(() => this.carritoService.total() * 1.16);
@@ -32,9 +32,13 @@ private inventarioService = inject(InventarioService);
   mensajePago = signal('');
   mostrarPago = signal(false);
 
-  ngOnInit() {
-    this.cargarSDKPaypal();
-  }
+  ngOnInit() {}
+
+  confirmarCompra() {
+  this.mostrarPago.set(true);
+  this.toast.info('Selecciona tu método de pago.');
+  setTimeout(() => this.cargarSDKPaypal(), 100);
+}
 
   cargarSDKPaypal() {
     if (document.getElementById('paypal-sdk')) {
@@ -55,21 +59,23 @@ private inventarioService = inject(InventarioService);
 
       (window as any).paypal?.Buttons({
         createOrder: () => {
-          return this.paypalService.crearOrden({
-            items: this.items().map(i => ({
-  nombre: i.producto.name,
-  cantidad: i.cantidad,
-  precio: Number(i.producto.price)
-})),
-total: Number(this.totalFinal())
-    
-          }).toPromise().then((orden: any) => orden.id);
-        },
+        const subtotal = this.items().reduce((acc, i) => acc + Number(i.producto.price) * i.cantidad, 0);
+        const iva = subtotal * 0.16;
+        const totalConIva = subtotal + iva;
+        const precioConIvaPorItem = (precio: number) => Number((precio * 1.16).toFixed(2));
+
+        return this.paypalService.crearOrden({
+          items: this.items().map(i => ({
+            nombre: i.producto.name,
+            cantidad: i.cantidad,
+            precio: precioConIvaPorItem(Number(i.producto.price))
+          })),
+          total: Number(totalConIva.toFixed(2))
+        }).toPromise().then((orden: any) => orden.id);
+      },
         onApprove: (data: any) => {
           return this.paypalService.capturarOrden(data.orderID).toPromise().then(() => {
-            this.guardarTicket();
-            this.mensajePago.set('✅ Pago con PayPal completado exitosamente.');
-            this.carritoService.vaciar();
+            this.guardarHistorial();
           });
         },
         onError: (err: any) => {
@@ -79,38 +85,60 @@ total: Number(this.totalFinal())
     }, 400);
   }
 
-  generarXML() {
-    this.guardarTicket();
-    this.carritoService.descargarXML(this.auth.nombreUsuario);
-  }
+  guardarHistorial() {
+    const fecha = new Date().toISOString().split('T')[0];
+    const responsable = this.auth.nombreUsuario;
+    const totalConIva = this.totalFinal();
 
-  guardarTicket() {
-    const esMenu = this.carritoService.origen === 'ganancia';
+    // Generar XML con ID temporal, se actualizará con el ID real
+    const xmlTemp = this.carritoService.generarXML(responsable, 0);
 
-  if (esMenu) {
-  const stockItems = this.items().map(i => ({ id: i.producto.id, cantidad: i.cantidad }));
-  this.inventarioService.actualizarStock(stockItems).subscribe({
-    error: (e) => console.error('Error actualizando stock:', e)
-  });
-}
-  const ticket = {
-    fecha: new Date().toISOString().split('T')[0],
-    responsable: this.auth.nombreUsuario || 'Sistema',
-    cantidad: this.totalFinal(),
-    tipo: this.carritoService.origen,
-    items: this.items().map(i => ({
-        producto: i.producto.name,
+    const payload = {
+      usuario_id: this.auth.idUsuario,
+      usuario_nombre: responsable,
+      fecha,
+      total: totalConIva,
+      email: this.auth.emailUsuario,
+      xml_ticket: xmlTemp,
+      items: this.items().map(i => ({
+        producto_nombre: i.producto.name,
+        producto_precio: Number(i.producto.price),
         cantidad: i.cantidad,
-        precio_unitario: i.producto.price,
-        total_linea: i.producto.price * i.cantidad
+        total_linea: Number(i.producto.price) * i.cantidad
       }))
     };
-    this.ticketService.crear(ticket).subscribe({
-      error: (e) => console.error('Error guardando ticket:', e)
+
+    this.historialService.crear(payload).subscribe({
+      next: (res) => {
+        // Generar XML con el ID real y descargarlo
+        const xmlFinal = this.carritoService.generarXML(responsable, res.id);
+        this.carritoService.descargarXML(xmlFinal, res.id);
+
+        // Actualizar stock
+        const stockItems = this.items().map(i => ({ id: i.producto.id, cantidad: i.cantidad }));
+        this.inventarioService.actualizarStock(stockItems).subscribe();
+
+        this.toast.exito('✅ Pago completado. Ticket enviado a tu correo.');
+        this.mensajePago.set('✅ Pago completado. Tu ticket ha sido enviado al correo.');
+        this.carritoService.vaciar();
+        this.mostrarPago.set(false);
+      },
+      error: (e) => {
+        console.error('Error guardando historial:', e);
+        this.mensajePago.set('✅ Pago completado.');
+        this.carritoService.vaciar();
+      }
     });
   }
 
   quitarUno(id: number) { this.carritoService.quitarUno(id); }
-  quitarTodo(id: number) { this.carritoService.quitarTodo(id); }
-  vaciar() { this.carritoService.vaciar(); }
+  quitarTodo(id: number) {
+  this.carritoService.quitarTodo(id);
+  this.toast.advertencia('Producto eliminado del carrito.');
+}
+  sumarUno(id: number) { this.carritoService.sumarUno(id); }
+vaciar() {
+  this.carritoService.vaciar();
+  this.toast.info('Carrito vaciado.');
+}
 }

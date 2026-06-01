@@ -1,0 +1,49 @@
+<app-navbar></app-navbar>
+
+<div class="pagina">
+  <div class="contenido">
+    <header class="page-header"><h2>MI PERFIL</h2></header>
+
+    <div class="perfil-card">
+      <div class="foto-area">
+        @if (foto()) {
+          <img [src]="foto()" class="avatar-grande" alt="Foto de perfil" />
+        } @else {
+          <div class="avatar-placeholder">👤</div>
+        }
+        <label class="btn-foto">
+          Cambiar foto
+          <input type="file" accept="image/*" (change)="onFotoChange($event)" hidden />
+        </label>
+      </div>
+
+      <div class="form-area">
+        <div class="form-grupo">
+          <label>Nombre de usuario</label>
+          <input type="text" [value]="username()" (input)="username.set($any($event.target).value)" />
+        </div>
+
+        <div class="form-grupo">
+          <label>Nueva contraseña (dejar vacío para no cambiar)</label>
+          <input type="password" placeholder="Nueva contraseña"
+            [value]="password()" (input)="password.set($any($event.target).value)" />
+        </div>
+
+        @if (fechaMod()) {
+          <p class="fecha-mod">Última modificación: {{ fechaMod() }}</p>
+        }
+
+        @if (exito()) { <p class="exito-msg">{{ exito() }}</p> }
+        @if (error()) { <p class="error-msg">{{ error() }}</p> }
+
+        <div class="botones">
+          <button class="btn-guardar" (click)="guardar()" [disabled]="cargando()">
+            @if (cargando()) { Guardando... } @else { Guardar cambios }
+          </button>
+          <button class="btn-logout" (click)="cerrarSesion()">Cerrar sesión</button>
+          <button class="btn-baja" (click)="darDeBaja()">Dar de baja cuenta</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

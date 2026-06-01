@@ -104,3 +104,20 @@
   opacity: 0.6;
   cursor: not-allowed;
 }
+
+.links {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.links a {
+  color: #555;
+  font-size: 0.85rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.links a:hover { color: #111; }
